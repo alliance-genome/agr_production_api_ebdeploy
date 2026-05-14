@@ -1,0 +1,21 @@
+version: "3.2"
+
+services:
+  api:
+    container_name: agr.production.api.server
+    image: 100225593120.dkr.ecr.us-east-1.amazonaws.com/agr_java_software:stage
+    command: java -jar agr_api/target/agr_api.jar
+    logging:
+      driver: gelf
+      options:
+        gelf-address: 'udp://logs.alliancegenome.org:12201'
+    ports:
+      - "8080:8080"
+    networks:
+      - production
+    env_file:
+      - .env
+
+networks:
+  # The presence of these objects is sufficient to define them
+  production:
